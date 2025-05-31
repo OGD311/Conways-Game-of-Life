@@ -10,7 +10,7 @@ COLUMNS = HEIGHT // CELL_SIZE
 ALIVE = (255, 255, 255)
 DEAD = (0, 0, 0)
 
-FPS = 100
+FPS = 10
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -58,9 +58,6 @@ while running:
             y = (y // CELL_SIZE)
 
             grid[y][x] = DEAD if grid[y][x] == ALIVE else ALIVE
-
-
-
 
 
     if not paused:
