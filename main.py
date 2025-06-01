@@ -17,7 +17,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
 pygame.display.set_caption('Conways GoL')
-
+font = pygame.font.SysFont('Arial', 24)
 
 grid = [[DEAD for _ in range(COLUMNS)] for _ in range(ROWS)]
 
@@ -83,7 +83,6 @@ while running:
         pygame.display.set_caption('Conways GoL')
         new_grid = [[DEAD for _ in range(COLUMNS)] for _ in range(ROWS)]
         
-        
         for x in range(COLUMNS):
             for y in range(ROWS):
                 state = grid[y][x]
@@ -114,7 +113,15 @@ while running:
     else:
         pygame.display.set_caption('Conways GoL - Paused')
 
+
+
+
     draw_grid()
+
+    if paused:
+        text = font.render("Paused", True, (200, 0, 0))
+        screen.blit(text, (WIDTH - text.get_width() - 10, HEIGHT - text.get_height() - 10))
+    
     pygame.display.flip()
     clock.tick(FPS)
 
