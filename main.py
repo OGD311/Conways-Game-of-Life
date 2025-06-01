@@ -69,6 +69,7 @@ while running:
                 screen.fill(DEAD)
                 grid = [[DEAD for _ in range(COLUMNS)] for _ in range(ROWS)]
                 paused = True
+                generationCount = 0
         
         if event.type == pygame.QUIT:
             running = False
