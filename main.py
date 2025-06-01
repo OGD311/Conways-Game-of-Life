@@ -10,7 +10,7 @@ COLUMNS = HEIGHT // CELL_SIZE
 ALIVE = (255, 255, 255)
 DEAD = (0, 0, 0)
 
-FPS = 10
+FPS = 60
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -42,9 +42,21 @@ def count_neighbours(x, y):
 
     return neighbourCount
 
+def get_pop():
+    populationCount = 0
+
+    for y in range(ROWS):
+        for x in range(COLUMNS):
+            if grid[y][x] == ALIVE:
+                populationCount += 1
+
+
+    return populationCount
+
 paused = True
 drag = False
 running = True
+generationCount = 0
 while running:
 
     for event in pygame.event.get():
@@ -77,6 +89,9 @@ while running:
 
         if 0 <= y < len(grid) and 0 <= x < len(grid[0]):
             grid[y][x] = DEAD if grid[y][x] == ALIVE else ALIVE
+        
+    else:
+        FPS = 60
 
 
     if not paused:
@@ -119,9 +134,18 @@ while running:
     draw_grid()
 
     if paused:
-        text = font.render("Paused", True, (200, 0, 0))
-        screen.blit(text, (WIDTH - text.get_width() - 10, HEIGHT - text.get_height() - 10))
+        pauseText = font.render("Paused", True, (200, 0, 0))
+        screen.blit(pauseText, (WIDTH - pauseText.get_width() - 10, HEIGHT - pauseText.get_height() - 10))
     
+    else:
+        generationCount += 1
+
+
+    popText = font.render(f"Pop: {get_pop()}", True, (200, 0, 0))
+    screen.blit(popText, (10, HEIGHT - popText.get_height() - 10))
+
+    popText = font.render(f"Gen: {generationCount}", True, (200, 0, 0))
+    screen.blit(popText, (10, HEIGHT - popText.get_height() - 40))
     pygame.display.flip()
     clock.tick(FPS)
 
