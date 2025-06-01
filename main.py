@@ -16,13 +16,16 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
+pygame.display.set_caption('Conways GoL')
+
+
 grid = [[DEAD for _ in range(COLUMNS)] for _ in range(ROWS)]
 
 
 def draw_grid():
     for y in range(ROWS):
         for x in range(COLUMNS):
-            pygame.draw.rect(screen, grid[y][x], (x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+            pygame.draw.rect(screen, grid[y][x], (x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 0)
 
 
 def count_neighbours(x, y):
@@ -40,6 +43,7 @@ def count_neighbours(x, y):
     return neighbourCount
 
 paused = True
+drag = False
 running = True
 while running:
 
@@ -53,14 +57,23 @@ while running:
             running = False
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            x, y = pygame.mouse.get_pos()
-            x = (x // CELL_SIZE)
-            y = (y // CELL_SIZE)
+            drag = True
+        
+        if event.type == pygame.MOUSEBUTTONUP:
+            drag = False
 
+    if drag:
+        FPS = 1000
+        x, y = pygame.mouse.get_pos()
+        x //= CELL_SIZE
+        y //= CELL_SIZE
+
+        if 0 <= y < len(grid) and 0 <= x < len(grid[0]):
             grid[y][x] = DEAD if grid[y][x] == ALIVE else ALIVE
 
 
     if not paused:
+        pygame.display.set_caption('Conways GoL')
         new_grid = [[DEAD for _ in range(COLUMNS)] for _ in range(ROWS)]
         
         
@@ -91,6 +104,9 @@ while running:
 
         grid = new_grid
     
+    else:
+        pygame.display.set_caption('Conways GoL - Paused')
+
     draw_grid()
     pygame.display.flip()
     clock.tick(FPS)
