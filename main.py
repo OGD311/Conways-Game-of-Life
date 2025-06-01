@@ -52,6 +52,11 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 paused = not paused
+
+            if event.key == pygame.K_c:
+                screen.fill(DEAD)
+                grid = [[DEAD for _ in range(COLUMNS)] for _ in range(ROWS)]
+                paused = True
         
         if event.type == pygame.QUIT:
             running = False
@@ -61,6 +66,8 @@ while running:
         
         if event.type == pygame.MOUSEBUTTONUP:
             drag = False
+
+        
 
     if drag:
         FPS = 1000
